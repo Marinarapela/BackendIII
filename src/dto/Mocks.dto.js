@@ -1,4 +1,4 @@
-export default class MockPetDTO {
+export class MockPetDTO {
     constructor(pet) {
         this.id = pet._id;
         this.name = pet.name;

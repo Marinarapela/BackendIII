@@ -7,5 +7,5 @@ router.get('/mockingpets', getMockingPets);
 router.get("/mockingusers", getMockUsers);
 router.post("/generateData", postGenerateData);
 
-module.exports = router;
+export default router;
 
