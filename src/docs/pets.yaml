@@ -1,0 +1,189 @@
+# router.get('/',petsController.getAllPets);
+# router.post('/',petsController.createPet);
+# router.post('/withimage',uploader.single('image'), petsController.createPetWithImage);
+# router.put('/:pid',petsController.updatePet);
+# router.delete('/:pid',petsController.deletePet);
+
+openapi: 3.0.0
+info:
+  title: Adoptme API - Pets
+  version: 1.0.0
+  description: API para manejar mascotas en la aplicación Adoptme
+
+paths:
+  /pets:
+    get:
+      summary: Obtener todas las mascotas
+      tags:
+        - Mascotas
+      responses:
+        '200':
+          description: Lista de mascotas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '500':
+          description: Error del servidor
+
+    post:
+      summary: Crear una nueva mascota
+      tags:
+        - Mascotas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetInput'
+      responses:
+        '201':
+          description: Mascota creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Datos inválidos
+        '500':
+          description: Error del servidor
+
+  /pets/withimage:
+    post:
+      summary: Crear una mascota con imagen
+      tags:
+        - Mascotas
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Fido"
+                specie:
+                  type: string
+                  example: "dog"
+                birthDate:
+                  type: string
+                  format: date
+                  example: "2018-05-12"
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Mascota creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Datos inválidos
+        '500':
+          description: Error del servidor
+
+  /pets/{pid}:
+    put:
+      summary: Actualizar una mascota por ID
+      tags:
+        - Mascotas
+      parameters:
+        - in: path
+          name: pid
+          schema:
+            type: string
+            example: "64f8c2b1c1234d56789abcd1"
+          required: true
+          description: ID de la mascota a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetInput'
+      responses:
+        '200':
+          description: Mascota actualizada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          description: Mascota no encontrada
+        '500':
+          description: Error del servidor
+
+    delete:
+      summary: Eliminar una mascota por ID
+      tags:
+        - Mascotas
+      parameters:
+        - in: path
+          name: pid
+          schema:
+            type: string
+            example: "64f8c2b1c1234d56789abcd1"
+          required: true
+          description: ID de la mascota a eliminar
+      responses:
+        '200':
+          description: Mascota eliminada correctamente
+        '404':
+          description: Mascota no encontrada
+        '500':
+          description: Error del servidor
+
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - name
+        - specie
+        - birthDate
+        - adopted
+      properties:
+        _id:
+          type: string
+          example: "64f8c2b1c1234d56789abcd1"
+        name:
+          type: string
+          example: "Fido"
+        specie:
+          type: string
+          example: "dog"
+        image:
+          type: string
+          example: "https://example.com/images/fido.jpg"
+        birthDate:
+          type: string
+          format: date
+          example: "2018-05-12"
+        adopted:
+          type: boolean
+          example: false
+
+    PetInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Fido"
+        specie:
+          type: string
+          example: "dog"
+        image:
+          type: string
+          example: "https://example.com/images/fido.jpg"
+        birthDate:
+          type: string
+          format: date
+          example: "2018-05-12"
+        adopted:
+          type: boolean
+          example: false

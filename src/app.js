@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import setupSwagger from "./config/swagger.js";
 
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
@@ -21,6 +22,8 @@ mongoose.connect(config.mongoUrl, {
 
 app.use(express.json());
 app.use(cookieParser());
+
+setupSwagger(app);
 
 app.use('/api/users',usersRouter);
 app.use('/api/pets',petsRouter);

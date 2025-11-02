@@ -1,0 +1,161 @@
+# router.get('/',usersController.getAllUsers);
+# router.get('/:uid',usersController.getUser);
+# router.put('/:uid',usersController.updateUser);
+# router.delete('/:uid',usersController.deleteUser);
+
+
+openapi: 3.0.0
+info:
+  title: Adoptme API - Usuarios
+  version: 1.0.0
+  description: API para manejar usuarios de la aplicación Adoptme
+
+paths:
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Operación extiosa, retorna Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Error del servidor
+
+  /api/users/{uid}:
+    get:
+      summary: Obtener un usuario por ID
+      tags:
+        - Usuarios
+      parameters:
+        - in: path
+          name: uid
+          schema:
+            type: string
+            example: "64f8c2a9b1234d56789abcd0"
+          required: true
+          description: ID del usuario a obtener
+      responses:
+        '200':
+          description: Operación exitosa, retorna Usuario encontrado por ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                _id: "64f8c2a9b1234d56789abcd0"
+                first_name: "Marina"
+                last_name: "R"
+                email: "marina@example.com"
+                role: "admin"
+                pets: ["64f8c2b1c1234d56789abcd1"]
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error del servidor
+
+    put:
+      summary: Actualizar un usuario por ID
+      tags:
+        - Usuarios
+      parameters:
+        - in: path
+          name: uid
+          schema:
+            type: string
+            example: "64f8c2a9b1234d56789abcd0"
+          required: true
+          description: ID del usuario a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Usuario actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error del servidor
+
+    delete:
+      summary: Eliminar un usuario por ID
+      tags:
+        - Usuarios
+      parameters:
+        - in: path
+          name: uid
+          schema:
+            type: string
+            example: "64f8c2a9b1234d56789abcd0"
+          required: true
+          description: ID del usuario a eliminar
+      responses:
+        '200':
+          description: Usuario eliminado correctamente
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error del servidor
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - email
+        - role
+      properties:
+        _id:
+          type: string
+          example: "64f8c2a9b1234d56789abcd0"
+        first_name:
+          type: string
+          example: "Marina"
+        last_namename:
+          type: string
+          example: "Rapela"
+        email:
+          type: string
+          example: "marina@example.com"
+        role:
+          type: string
+          example: "admin"
+        pets:
+          type: array
+        items:
+          type: string
+        example: ["Fido"]
+
+    UserUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: "Marina Actualizada"
+        last_name:
+          type: string
+          example: "Rapela Actualizada"
+        email:
+          type: string
+          example: "marina.new@example.com"
+        role:
+          type: string
+          example: "user"
+        pets:
+          type: string
+          example: ["Fido"]
