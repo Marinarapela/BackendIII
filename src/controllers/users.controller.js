@@ -1,5 +1,15 @@
 import { usersService } from "../services/index.js"
 
+const createUser = async (req, res) => {
+    const { first_name, last_name, email } = req.body;
+    if (!first_name || !last_name || !email)
+        return res.status(400).send({ status: "error", error: "Incomplete values" });
+
+    const user = { first_name, last_name, email, pets: [] };
+    const result = await usersService.create(user);
+    res.send({ status: "success", payload: result });
+};
+
 const getAllUsers = async(req,res)=>{
     const users = await usersService.getAll();
     res.send({status:"success",payload:users})
@@ -31,5 +41,6 @@ export default {
     deleteUser,
     getAllUsers,
     getUser,
-    updateUser
+    updateUser,
+    createUser
 }

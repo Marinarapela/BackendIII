@@ -44,8 +44,8 @@ PORT=8080
 
 ```bash
 npm run dev
-La app correrá en http://localhost:8080 por defecto.
 ```
+La app correrá en http://localhost:8080 por defecto.
 
 ---
 
@@ -71,6 +71,17 @@ docker pull mrapela/app-proyectofinal-image:latest
 docker run -d -p 3000:8080 mrapela/app-proyectofinal-image
 ```
 
+---
+## 🧪 Tests funcionales
+El proyecto incluye tests funcionales desarrollados con **Mocha**, **Chai** y **Supertest**.
+
+- Se testean todos los endpoints del router `adoption.router.js`.
+- Incluyen casos de **éxito** y **error**.
+- Para ejecutarlos:
+
+```bash
+npm test
+```
 ---
 
 ## 🗄️ MongoDB Atlas
@@ -113,7 +124,7 @@ RUN npm install --production
 COPY ./src ./src
 EXPOSE 8080
 CMD ["npm", "start"]
-````
+```
 ---
 ## 📌 Notas finales
 Asegurate de que el puerto host esté libre antes de levantar el contenedor.
@@ -130,3 +141,7 @@ Tests unitarios y de integración configurados con Mocha + Supertest.
 🐙 Repositorio GitHub: [Aquí](https://github.com/Marinarapela/BackendIII.git)
 
 🐋 Imagen Docker Hub: [Imágen](https://hub.docker.com/repository/docker/mrapela/app-proyectofinal-image/general)
+
+## 📄 Licencia
+Este proyecto está bajo la licencia MIT.  
+© 2025 Marina Rapela.

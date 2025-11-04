@@ -12,7 +12,9 @@ import config from './config/config.js';
 import 'dotenv/config';
 
 const app = express();
+
 const PORT = process.env.PORT||8080;
+
 mongoose.connect(config.mongoUrl, {
     dbName: config.dbName,
 }).then(()=>{
@@ -46,6 +48,9 @@ app.get('/', (req, res) => {
     res.send(`${style}${content}`);
 });
 
-app.listen(PORT,()=>{
+
+export const server = app.listen(PORT,()=>{
     console.log(`Server is running on port http://localhost:${PORT}`);
 });
+
+export default app;
