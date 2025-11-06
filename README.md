@@ -102,7 +102,7 @@ npm test
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "mocha test/supertest.test.js"
+    "test": "mocha ./test/**/*.test.js --exit"
   }
 }
 ```

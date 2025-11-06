@@ -9,21 +9,22 @@ import adoptionsRouter from './routes/adoption.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import mocksRouter from './routes/mocks.router.js';
 import config from './config/config.js';
-import 'dotenv/config';
+
+import middLogg from "./config/logger.js";
 
 const app = express();
 
-const PORT = process.env.PORT||8080;
-
-mongoose.connect(config.mongoUrl, {
-    dbName: config.dbName,
+mongoose.connect(config.MONGO_URL, {
+    dbName: config.DB_NAME,
 }).then(()=>{
     console.log ("MongoDB connected")
+    console.log (`Mode: ${config.MODE}`)
 })
 .catch((err)=> console.error(err))
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(middLogg);
 
 setupSwagger(app);
 
@@ -49,8 +50,8 @@ app.get('/', (req, res) => {
 });
 
 
-export const server = app.listen(PORT,()=>{
-    console.log(`Server is running on port http://localhost:${PORT}`);
+export const server = app.listen(config.PORT,()=>{
+    console.log(`Server is running on port http://localhost:${config.PORT}`);
 });
 
 export default app;
